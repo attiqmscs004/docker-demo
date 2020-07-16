@@ -1,5 +1,5 @@
 pipeline {
-    agent ('NY-CollectionsNode5')
+    agent none
     stages {
         stage('Build') {
             agent any
