@@ -1,5 +1,5 @@
-ipeline {
-    agent none
+pipeline {
+    agent ('NY-CollectionsNode5')
     stages {
         stage('Build') {
             agent any
