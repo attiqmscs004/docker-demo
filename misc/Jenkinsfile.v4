@@ -1,49 +1,22 @@
 pipeline {
-
-    def didSucceed = true
-
-    agent
-    {
-        node {
-                label 'master'
-                customWorkspace "${env.JobPath}"
-              }
-    }
-
-    stages 
-    {
-        stage('Start') {
+    agent any
+    stages {
+        stage ('release') {
             steps {
-                sh 'ls'
-            }
-        }
-
-        stage ('set_env') {
-            steps {
-                // script to set environment.
-                didSucceed = true // Here you indicate whether stuff actually worked..
-            }
-        }
-
-        stage ('Build') {
-            steps {
-                if (didSucceed) {
-                    // script to build.
-                } else {
-                    // Procedure in case of previous error..
+                script {
+                    echo "echo currentbuild ${BUILD_ID}"
+                    //sh 'exit 1'
                 }
             }
         }
-
-        stage ('Send_mail') {
-            steps {
-                // script to send mail.
-            }
-        }
-
-        stage('End') {
-            steps {
-                sh 'ls'
+    }
+    post {
+        changed {
+            script {
+                echo "${currentBuild.getCurrentResult()}"
+                if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
+                    echo "Previous build failed ${currentBuild?.getPreviousBuild()?.number} and now it has been fixed"
+                }
             }
         }
     }
