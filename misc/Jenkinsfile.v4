@@ -1,21 +1,49 @@
 pipeline {
-    agent any
-    stages {
-        stage('AppSec') {
+
+    def didSucceed = true
+
+    agent
+    {
+        node {
+                label 'master'
+                customWorkspace "${env.JobPath}"
+              }
+    }
+
+    stages 
+    {
+        stage('Start') {
             steps {
-                bat 'exit 0'
+                sh 'ls'
             }
         }
-        stage('Approval') {
+
+        stage ('set_env') {
             steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    bat "exit 1"
+                // script to set environment.
+                didSucceed = true // Here you indicate whether stuff actually worked..
+            }
+        }
+
+        stage ('Build') {
+            steps {
+                if (didSucceed) {
+                    // script to build.
+                } else {
+                    // Procedure in case of previous error..
                 }
             }
         }
-        stage('NewStage') {
+
+        stage ('Send_mail') {
             steps {
-                bat 'exit 0'
+                // script to send mail.
+            }
+        }
+
+        stage('End') {
+            steps {
+                sh 'ls'
             }
         }
     }
