@@ -5,7 +5,7 @@ pipeline {
             steps {
                 script {
                     echo "echo currentbuild ${BUILD_ID}"
-                    //sh 'exit 1'
+                    bat 'exit 1'
                 }
             }
         }
