@@ -11,14 +11,16 @@ pipeline {
         stage('Test') {
             agent any
             steps {
-                echo 'testing...'
-                error("This will fail")
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    script{
-                        testStage = "Fail"
-                    }
-                  }
-            }
+                 script {
+                          try {
+                               echo '123'
+                          } catch (err) {
+                              testStage = "Fail"
+                              echo err.getMessage()
+                          }
+        }
+        echo testStage
+    }
         }
         stage('Approval') {
             // no agent, so executors are not used up when waiting for approvals
@@ -42,5 +44,3 @@ pipeline {
         }
     }
 }
-
-
