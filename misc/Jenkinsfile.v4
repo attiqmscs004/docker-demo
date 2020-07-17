@@ -12,7 +12,7 @@ pipeline {
             agent any
             steps {
                 echo 'testing...'
-                exit 1
+                sh 123
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     script{
                         testStage = "Fail"
