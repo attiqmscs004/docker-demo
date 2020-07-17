@@ -13,7 +13,7 @@ pipeline {
             steps {
                  script {
                           try {
-                               echo '123'
+                               erro ('this task will fail') 
                           } catch (err) {
                               testStage = "Fail"
                               echo err.getMessage()
